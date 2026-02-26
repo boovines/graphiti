@@ -1,0 +1,20 @@
+services:
+  neo4j:
+    image: neo4j:5.26.2
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+    environment:
+      - NEO4J_AUTH=neo4j/graphiti-demo
+      - NEO4J_PLUGINS=["apoc"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 1s
+      timeout: 10s
+      retries: 10
+      start_period: 3s
+
+volumes:
+  neo4j_data:

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphiti Demo</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-dot"></div>
+        <span class="logo-text">graphiti</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-danger btn-sm" id="clearGraphBtn">Clear Graph</button>
+      </div>
+    </header>
+
+    <!-- Main Three-Panel Layout -->
+    <div class="main">
+      <!-- Upload Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Documents</h2>
+          <p>Upload files to build the knowledge graph</p>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-zone-icon">+</div>
+            <div class="drop-zone-text">
+              Drop files here or <strong>browse</strong><br>
+              <span class="text-muted">.txt, .md, .pdf</span>
+            </div>
+            <input type="file" class="file-input" id="fileInput" accept=".txt,.md,.pdf" multiple>
+          </div>
+
+          <div class="upload-status" id="uploadStatus"></div>
+
+          <div class="doc-list" id="docList"></div>
+        </div>
+      </div>
+
+      <!-- Chat Panel -->
+      <div class="panel" style="border-right: 1px solid var(--color-gray-200);">
+        <div class="panel-header">
+          <h2>Chat</h2>
+          <p>Query the knowledge graph with hybrid search</p>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="message message-assistant">
+            <div class="message-bubble">
+              Upload a document to get started. I'll use hybrid search (BM25 + semantic + graph traversal) to answer your questions from the knowledge graph.
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <input
+              type="text"
+              class="chat-input"
+              id="chatInput"
+              placeholder="Ask about your documents..."
+              autocomplete="off"
+            >
+            <button class="btn btn-primary btn-sm" id="chatSendBtn">
+              Send &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graph Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Knowledge Graph</h2>
+          <p>Entities, relationships, and communities</p>
+        </div>
+        <div class="graph-container" id="graphContainer">
+          <div class="graph-empty" id="graphEmpty">
+            <div class="graph-empty-icon">&#x25CB;</div>
+            <div class="graph-empty-text">
+              Upload a document to<br>visualize the knowledge graph
+            </div>
+          </div>
+          <div class="graph-canvas" id="graphCanvas" style="display: none;"></div>
+          <div class="graph-legend" id="graphLegend" style="display: none;">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--color-black);"></div>
+              <span>Entity</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--color-accent);"></div>
+              <span>Community</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #f59e0b; border: 2px solid #f59e0b;"></div>
+              <span>Search result</span>
+            </div>
+          </div>
+          <div class="node-detail" id="nodeDetail">
+            <div class="node-detail-name" id="nodeDetailName"></div>
+            <div class="node-detail-labels" id="nodeDetailLabels"></div>
+            <div class="node-detail-summary" id="nodeDetailSummary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
